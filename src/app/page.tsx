@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { db } from '@/db';
 
 export default async function Home() {
-    const blocks = db.blocks;
+    // Fetch the blocks from the database
+    const blocks = await db.block.findMany();
 
     const renderedBlocks = blocks.map((block) => {
         return (
@@ -12,7 +13,6 @@ export default async function Home() {
                 className="flex justify-between items-center p-2 border rounded"
             >
                 <div>{block.title}</div>
-                <div>View</div>
             </Link>
         );
     });

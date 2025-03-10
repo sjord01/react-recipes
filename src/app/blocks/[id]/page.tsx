@@ -8,10 +8,10 @@ interface Block {
 }
 
 async function findBlock(id: number): Promise<Block | null> {
-    // Query the blocks array to find the block with the matching ID
-    const block = db.blocks.find((block) => block.id === id);
-
-    return block || null; // Return the block if found, otherwise return null
+    const block = await db.block.findUnique({
+        where: { id },
+    });
+    return block || null;
 }
 
 interface BlockShowPageProps {
@@ -21,12 +21,10 @@ interface BlockShowPageProps {
 }
 
 export default async function BlockShowPage(props: BlockShowPageProps) {
-    // Fetch the block using the findBlock function
     const block = await findBlock(parseInt(props.params.id));
 
-    // If the block doesn't exist, show a 404 page
     if (!block) {
-        return notFound(); // Render the not found page
+        return notFound();
     }
 
     return (
